@@ -1,0 +1,61 @@
+<% layout("layouts/boilerplate")%>
+<body>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <h3><%=listing.title%></h3>
+        </div>
+    
+    <div class="card col-6 offset-2">
+     <img class="card-img-top show-card" 
+     src="<%=listing.image%>" 
+     alt="Card image">
+       <div class="card-body">
+        <p class="card-text">
+            <!-- <b>title : </b> -->
+            <br>
+           <b>id</b> : <%=listing._id%>
+            <br>
+            About : <%=listing.description%>
+        </p>
+       </div>
+    </div>
+    
+   
+    </div>
+    <div class="btns">
+         <a href="/listing/<%=listing._id%>/edit" class="btn btn-dark offset-2">Edit</a>
+         <br>
+         <br>
+     <form method="POST" action="/listing/<%=listing._id%>/delete?_method=DELETE">
+        <button class="mb-3 btn btn-dark offset-2">
+            Delete
+        </button>
+      </form>
+    </div>
+    <!-- review part -->
+    <div class="col-8 offset-2 mb-3">
+    <hr/>
+    <h4>Leave a review</h4>
+    <form action="/listing/<%=listing._id%>/reviews" method="POST" novalidate class="needs-validation">
+        <div class="mb-3 mt-3">
+            <label for="rating" class="form-label">Rating</label>
+            <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range"/>
+        </div>
+        <div class="mb-3 mt-3">
+            <label for="comment" class="form-label">write comment</label>
+            <textarea
+            name="review[comment]"
+            id="comment"
+            cols="30"
+            rows="5"
+            class="form-control"
+            required
+            ></textarea>
+            <div class="invalid-feedback">
+                please write something
+            </div>
+        </div>
+        <button class="btn btn-outline-dark">Add review</button>
+    </form>
+    </div>
+</body>
