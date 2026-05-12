@@ -9,6 +9,8 @@ const wrapAsync=require("./utility/wrapAsync.js");
 const ExpressError=require("./utility/ExpressError.js");
 const {listingSchema, reviewSchema}=require("./schema.js");
 const Review=require("./models/review.js");
+const listing=require("./routes/listing.js");
+const review=require("./routes/review.js");
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -38,93 +40,11 @@ app.get("/",(req,res)=>{
     console.log("all fine");
 });
 
-//schema validation
-const validateListing=(req,res,next)=>{
-    let {error}=listingSchema.validate(req.body);
-    if(error){
-        let errMsg=error.details.map((el)=>el.message).join(",");
-        throw new ExpressError(400,errMsg);
-    }else{
-        next();
-    }
-};
+app.use("/listing",listing);
+app.use("/listing/:id/reviews",review);
 
-// review validation
-const reviewValidation=(req,res,next)=>{
-    let {error}=reviewValidation.validate(req.body);
-    if(error){
-        let errMsg=error.details.map((el)=>el.message).join(",");
-        throw new ExpressError(400,errMsg);
-    }else{
-        next();
-    }
-};
-    
-    
 
-//index route
-app.get("/listing",wrapAsync(async (req,res) => {
-   const allListings= await Listing.find({});
-   res.render("./listings/index.ejs",{allListings});
-}));
 
-//create new route
-app.get("/listing/new",(req,res)=>{
-    res.render("./listings/newListing.ejs");
-});
-
-//show route
-app.get("/listing/:id",wrapAsync(async (req,res) =>{
-    let {id}=req.params;
-    const listing=await Listing.findById(id);
-    console.log("yet clear");
-    res.render("./listings/show.ejs",{listing});
-}));
-
-//add new data
-app.post("/listing/new/add",validateListing,wrapAsync(async (req,res) => {
-    
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listing");
-   }));
-
-//edit route
-app.get("/listing/:id/edit",wrapAsync(async (req,res) => {
-    let {id}=req.params;
-    const listing=await Listing.findById(id);
-    res.render("./listings/updatePage.ejs",{listing});
-}));
-//update route
-app.put("/listing/:id/update",validateListing,wrapAsync(async (req,res) => {
-    if(!req.body.listing){
-        throw new ExpressError(400,"please send valid data");
-    }
-    let {id}=req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
-    res.redirect(`/listing/${id}`);
-}));
-
-//DELETE ROUTE
-app.delete("/listing/:id/delete",wrapAsync(async (req,res) => {
-    let {id}=req.params;
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listing");
-}));
-
-//review
-app.post("/listing/:id/reviews",reviewValidation,wrapAsync(async(req,res)=>{
-    let listing=await Listing.findById(req.params.id);
-    let newReview=new Review(req.body.review);
-
-    listing.reviews.push(newReview);
-    await listing.save();
-    await newReview.save();
-
-    console.log("new review has saved");
-    res.redirect(`/listing/${listing._id}`);
-
-}));
 
 // error handling
 
