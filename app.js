@@ -1,16 +1,17 @@
 const express=require("express");
 const app=express();
 const mongoose=require("mongoose");
-const Listing=require("./models/listing.js");
+// const Listing=require("./models/listing.js");
 const path=require("path");
 const methodOverride=require("method-override");
 const ejsMate=require("ejs-mate");
-const wrapAsync=require("./utility/wrapAsync.js");
+// const wrapAsync=require("./utility/wrapAsync.js");
 const ExpressError=require("./utility/ExpressError.js");
-const {listingSchema, reviewSchema}=require("./schema.js");
-const Review=require("./models/review.js");
 const listing=require("./routes/listing.js");
 const review=require("./routes/review.js");
+const session=require("express-session");
+const flash=require("connect-flash");
+
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
@@ -38,6 +39,26 @@ app.listen(8080,()=>{
 
 app.get("/",(req,res)=>{
     console.log("all fine");
+});
+
+//express session
+const sessionOptions={
+    secret:"itsSecretCode",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{
+        expires:Date.now()+7*24*60*60*1000,
+        maxAge:7*24*60*60*1000,
+        httpOnly:true,
+    },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success");
+    next();
 });
 
 app.use("/listing",listing);
