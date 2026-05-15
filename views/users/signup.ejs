@@ -1,0 +1,27 @@
+<% layout("layouts/boilerplate") %>
+<div class="row">
+    <div class="col-8 offset-2">
+        <h1>SignUP for RoomiFy</h1>
+        <form method="POST" action="/user/signup" class="needs-validation" novalidate>
+            <!-- userName -->
+        <div class="mb-3">
+            <label for="userName" class="form-label">userName</label>
+            <input placeholder="Decide your userName" name="username" type="text" class="form-control" required>
+            <div class="invalid-feedback">Plesse decide your userName</div>
+        </div>
+        <!-- email -->
+         <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input placeholder="Write your email" name="email" type="email" class="form-control" required>
+            <div class="invalid-feedback">email is compulsory</div>
+        </div>
+        <!-- password -->
+         <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input placeholder="Give Password" name="password" type="password" class="form-control" required>
+            <div class="invalid-feedback">Give Password</div>
+        </div>
+        <button class="btn btn-success">SignUP</button>
+        </form>
+    </div>
+</div>

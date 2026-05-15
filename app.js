@@ -9,8 +9,12 @@ const ejsMate=require("ejs-mate");
 const ExpressError=require("./utility/ExpressError.js");
 const listing=require("./routes/listing.js");
 const review=require("./routes/review.js");
+const user=require("./routes/user.js");
 const session=require("express-session");
 const flash=require("connect-flash");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./models/user.js");
 
 
 app.set("view engine","ejs");
@@ -56,14 +60,36 @@ const sessionOptions={
 app.use(session(sessionOptions));
 app.use(flash());
 
+// authentication and authorization
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req,res,next)=>{
     res.locals.success=req.flash("success");
     res.locals.error=req.flash("error");
+    res.locals.curruser=req.user;
     next();
 });
 
+// app.get("/demouser",async(req,res,next)=>{
+//     let fakeuser=new User({
+//         email:"student@123",
+//         username:"firstUser",
+//     });
+//     let registeredUser=await User.register(fakeuser,"helloworld");
+//     res.send(registeredUser);
+
+// });
+
+// routes
 app.use("/listing",listing);
 app.use("/listing/:id/reviews",review);
+app.use("/user",user);
 
 
 

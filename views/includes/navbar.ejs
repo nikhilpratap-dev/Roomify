@@ -5,17 +5,26 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
+      <div class="navbar-nav">
+        <!-- <li class="nav-item"> -->
           <a class="nav-link active" aria-current="page" href="/">Home</a>
-        </li>
-        <li class="nav-item">
+        <!-- </li> -->
+        <!-- <li class="nav-item"> -->
           <a class="nav-link" href="/">All listings</a>
-        </li>
-        <li class="nav-item">
+        <!-- </li> -->
+        <!-- <li class="nav-item"> -->
           <a class="nav-link" href="/listing/new">Add new listings</a>
-        </li>
-      </ul>
+        <!-- </li> -->
+      </div>
+      <div class="navbar-nav ms-auto">
+        <%if(!curruser){%>
+        <a class="nav-link active" aria-current="page" href="/user/signup">sign up</a>
+        <a class="nav-link active" aria-current="page" href="/user/login">Log in</a>
+        <%}%>
+        <%if(curruser){%>
+        <a class="nav-link active" aria-current="page" href="/user/logout">Log out</a>
+        <%}%>
+      </div>
     </div>
   </div>
 </nav>
