@@ -3,6 +3,7 @@ const wrapAsync = require("../utility/wrapAsync.js");
 const router=express.Router();
 const User=require("../models/user.js");
 const passport = require("passport");
+const { saveRedirectUrl } = require("../middleware.js");
 
 
 // signUp
@@ -16,8 +17,13 @@ router.post("/signup",wrapAsync(async (req,res)=>{
         let {username, email, password}=req.body;
         const newUser=new User({email, username});
         const registeredUser= await User.register(newUser, password);
+        req.login(registeredUser,(err)=>{
+            if(err){
+                return next(err);
+            }
         req.flash("success","Welcome to Roomify");
-        res.redirect("/listing"); 
+        res.redirect("/listing");
+        });
     } catch(er){
             req.flash("error",er.message);
             res.redirect("/user/signup"); 
@@ -31,10 +37,12 @@ router.get("/login",(req,res)=>{
 });
 
 router.post("/login",
+    saveRedirectUrl,
     passport.authenticate("local",{failureRedirect:"/user/login", failureFlash:true}),
     async(req,res)=>{
     req.flash("success","welcome to Roomify");
-    res.redirect("/listing");
+    let redirectUrl=res.locals.redirectUrl || ("/listing");
+    res.redirect(redirectUrl);
 });
 
 //logout
