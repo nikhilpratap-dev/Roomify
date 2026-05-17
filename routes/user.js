@@ -4,55 +4,24 @@ const router=express.Router();
 const User=require("../models/user.js");
 const passport = require("passport");
 const { saveRedirectUrl } = require("../middleware.js");
+const userController=require("../controllers/user.js");
 
+//signUp
+router.route("/signup")
+.get(userController.signupPage)
+.post(wrapAsync(userController.signup));
 
-// signUp
-router.get("/signup",(req,res)=>{
-    res.render("users/signup");
-});
-
-
-router.post("/signup",wrapAsync(async (req,res)=>{
-    try{
-        let {username, email, password}=req.body;
-        const newUser=new User({email, username});
-        const registeredUser= await User.register(newUser, password);
-        req.login(registeredUser,(err)=>{
-            if(err){
-                return next(err);
-            }
-        req.flash("success","Welcome to Roomify");
-        res.redirect("/listing");
-        });
-    } catch(er){
-            req.flash("error",er.message);
-            res.redirect("/user/signup"); 
-        }
-
-}));
 
 // Login
-router.get("/login",(req,res)=>{
-    res.render("users/login");
-});
-
-router.post("/login",
-    saveRedirectUrl,
+router.route("/login")
+.get(userController.loginPage)
+.post(saveRedirectUrl,
     passport.authenticate("local",{failureRedirect:"/user/login", failureFlash:true}),
-    async(req,res)=>{
-    req.flash("success","welcome to Roomify");
-    let redirectUrl=res.locals.redirectUrl || ("/listing");
-    res.redirect(redirectUrl);
-});
+    userController.login);
+
 
 //logout
-router.get("/logout",(req,res,next)=>{
-    req.logout((err)=>{
-        if(err){
-            return next(err);
-        }
-        req.flash("success","successfully logged out");
-        res.redirect("/listing");
-    });
-});
+router.get("/logout",userController.logout);
+
+
 module.exports=router;
