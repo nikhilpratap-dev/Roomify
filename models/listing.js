@@ -1,6 +1,7 @@
 const mongoose=require("mongoose");
 const Schema=mongoose.Schema;
 const Review=require("./review.js");
+const User=require("./user.js");
 
 let listingSchema=new Schema({
     title:{
