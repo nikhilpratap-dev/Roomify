@@ -8,12 +8,12 @@ module.exports.index=async (req,res) => {
    res.render("./listings/index.ejs",{allListings});
 }
 
-// create New Data
+// show new Listing form 
 module.exports.createNewListing=(req,res)=>{
     res.render("./listings/newListing.ejs");
 }
 
-//show Listing page
+//show Listing 
 module.exports.showListing=async (req,res) =>{
     let {id}=req.params;
     const listing=await Listing.findById(id).populate({path:"reviews",
@@ -29,9 +29,11 @@ module.exports.showListing=async (req,res) =>{
 
 //add new Listing
 module.exports.addNewListing=async (req,res) => {
-    
+    let url=req.file.path;
+    let filename=req.file.filename;
     const newListing = new Listing(req.body.listing);
     newListing.owner = req.user._id;
+    newListing.image={url,filename};
     await newListing.save();
     req.flash("success","new listing has created !");
     res.redirect("/listing");

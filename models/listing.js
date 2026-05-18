@@ -11,11 +11,9 @@ let listingSchema=new Schema({
         type:String
     },
     image:{
-        type:String,
-        default:"https://www.freepik.com/free-photo/empty-sea-beach-background_3502704.htm#fromView=keyword&page=1&position=0&uuid=304bdd9a-40a3-4eff-9ec3-e3199df846c9&query=Beach1",
-        set : (v) => v===""
-        ?"https://www.freepik.com/free-photo/empty-sea-beach-background_3502704.htm#fromView=keyword&page=1&position=0&uuid=304bdd9a-40a3-4eff-9ec3-e3199df846c9&query=Beach"
-        :v,
+        url:String,
+        filename:String,
+        
     },
     price:{
         type:Number

@@ -6,6 +6,9 @@ const ExpressError=require("../utility/ExpressError.js");
 const {listingSchema}=require("../schema.js");
 const {isLoggedIn, isowner}=require("../middleware.js"); 
 const listingController=require("../controllers/listing.js");
+const multer=require("multer");
+const {storage}=require("../cloudConfig.js");
+const upload=multer({ storage });
 
 
 
@@ -29,8 +32,9 @@ router.get("/new",isLoggedIn,listingController.createNewListing);
 //show route
 router.get("/:id",wrapAsync(listingController.showListing));
 
-//add new data
-router.post("/new/add",isLoggedIn,validateListing,wrapAsync(listingController.addNewListing));
+// add new data
+router.post("/new/add",isLoggedIn,upload.single('listing[image]'),validateListing,wrapAsync(listingController.addNewListing));
+
 
 //edit route
 router.get("/:id/edit",isLoggedIn, isowner,wrapAsync(listingController.editListingPage));
