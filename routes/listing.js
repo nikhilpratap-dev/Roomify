@@ -39,7 +39,7 @@ router.post("/new/add",isLoggedIn,upload.single('listing[image]'),validateListin
 //edit route
 router.get("/:id/edit",isLoggedIn, isowner,wrapAsync(listingController.editListingPage));
 //update route
-router.put("/:id/update",isLoggedIn,isowner,validateListing,wrapAsync(listingController.updatePage));
+router.put("/:id/update",isLoggedIn,isowner,upload.single('listing[image]'),validateListing,wrapAsync(listingController.updatePage));
 
 //DELETE ROUTE
 router.delete("/:id/delete",isLoggedIn,isowner,wrapAsync(listingController.deleteListing));

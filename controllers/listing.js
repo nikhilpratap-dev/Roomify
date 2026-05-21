@@ -43,7 +43,13 @@ module.exports.addNewListing=async (req,res) => {
 module.exports.editListingPage=async (req,res) => {
     let {id}=req.params;
     const listing=await Listing.findById(id);
-    res.render("./listings/updatePage.ejs",{listing});
+    if(!listing){
+        req.flash("error","current Listing is not available !");
+        return res.redirect("/listing");
+    }
+    let originalImageUrl=listing.image.url;
+    originalImageUrl=originalImageUrl.replace("/upload","/upload/h_300,w_300");
+    res.render("./listings/updatePage.ejs",{listing,originalImageUrl});
 }
 
 
@@ -53,7 +59,13 @@ module.exports.updatePage=async (req,res) => {
         throw new ExpressError(400,"please send valid data");
     }
     let {id}=req.params;
-    await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    let listing=await Listing.findByIdAndUpdate(id,{...req.body.listing});
+    if(typeof req.file !== "undefined"){
+        let url=req.file.path;
+        let filename=req.file.filename;
+        listing.image={url,filename};
+        await listing.save();
+    }
     req.flash("success","Listing updated");
     res.redirect(`/listing/${id}`);
 }

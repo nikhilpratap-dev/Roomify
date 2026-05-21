@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'roomify-dev',
-    allowedformats: ["png","jpg","jpeg","pdf"],
+    allowed_formats: ["png","jpg","jpeg"],
   },
 });
 

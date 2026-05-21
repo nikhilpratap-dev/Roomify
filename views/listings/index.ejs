@@ -1,20 +1,102 @@
 <% layout("layouts/boilerplate") %>
 <body>
-    <form method="GET" action="/listing/new">
+    <!-- <form method="GET" action="/listing/new">
         <button>add new listing</button>
-    </form>
-    <h3>All Listings</h3>
+    </form> -->
+    <!-- <h3>Explore</h3> -->
+     <style>
+      #filters{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-left: 2rem;
+      }
+
+      .filter{
+        text-align: center;
+        margin-right: 2rem;
+        margin-top: 1rem;
+        opacity: 0.7;
+      }
+
+      .filter:hover{
+        opacity: 1;
+        cursor: pointer;
+      }
+      .filter p{
+        font-size: 0.8rem;
+      }
+      .form-switch{
+        /* margin-top: 1rem; */
+      }
+      .tax-info{
+        display: none;
+      }
+      .tax-toggle{
+        border: 1px solid black;
+        border-radius: 1rem;
+        height: 3rem;
+        padding: 1rem;
+        margin-left: 2rem;
+        display: flex;
+        align-items:center;
+      }
+      .form-check-label{
+        font-size: 0.9rem;
+      }
+     </style>
+     <div id="filters" >
+      <div class="filter">
+        <div><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+      </div>
+       <div class="filter">
+        <div><i class="fa-solid fa-mountain-sun"></i></div>
+        <p>Hills Station</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-umbrella-beach"></i></div>
+        <p>Beach</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Relax</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-mountain-city"></i></div>
+        <p>Iconic cities</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castle</p>
+      </div>
+      <div class="filter">
+        <div><i class="fa-solid fa-sailboat"></i></div>
+        <p>Boating</p>
+      </div>
+      <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Price with taxes</label>
+      </div>
+      </div>
+     </div>
     <div class="row row-cols-lg-3 row-cols-mid-2 row-cols-sm-1">
      <% for(let listing of allListings){%>
         <a href="/listing/<%=listing._id%>" class="listing-link">
           <div class="card col listing-card">
-          <img src="<%=listing.image%>" class="card-img-top" alt="...">
+          <img src="<%=listing.image.url%>" class="card-img-top" alt="...">
           <div class="card-img-overlay"></div>
            <div class="card-body">
           <p class="card-text">
             <b><%=listing.title%></b>
             <br>
             &#8377 <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> /night
+            <i class="tax-info"> &nbsp; &nbsp; +18% GST</i>
             <!-- ₹ <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %> / night -->
              
           </p>
@@ -23,4 +105,17 @@
         </a>
      <%}%>
     </div>
+    <script>
+      let taxSwitch=document.getElementById("switchCheckDefault");
+      taxSwitch.addEventListener("click",()=>{
+        let taxInfo=document.getElementsByClassName("tax-info");
+        for(info of taxInfo){
+          if(info.style.display !="inline"){
+            info.style.display="inline";
+          }else{
+            info.style.display="none";
+          }
+        }
+      });
+    </script>
 </body>

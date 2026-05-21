@@ -39,15 +39,19 @@ async function main() {
 
 main().catch(err => console.log(err));
 
-
-
-app.listen(8080,()=>{
-    console.log("all fine 1");
+app.listen(8080, () => {
+    console.log("Server started on port 8080");
 });
 
-app.get("/",(req,res)=>{
-    console.log("all fine");
+app.get("/", (req, res) => {
+    res.send("Server working properly");
 });
+
+app.get("/test", (req, res) => {
+    res.send("Test route working");
+});
+
+
 
 //express session
 const sessionOptions={
