@@ -4,6 +4,30 @@
     flex-wrap: wrap;
     align-items: center;
   }
+  .search-bar{
+    border-radius: 25px;
+    /* border-color: 1px solid black; */
+    font-size: 17px;
+    padding: 0.3rem 0rem 0.3rem 0rem;
+    text-align: center;
+  }
+  .btn-search{
+    background-color: rgba(250, 63, 63, 0.918);
+    color: white;
+    border-radius: 25px;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    margin-left: 1rem;
+  }
+  .btn-search:hover{
+    background-color: rgba(250, 63, 63, 0.918);
+    color: white;
+    border-radius: 25px;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    margin-left: 1rem;
+  }
+  .fa-magnifying-glass{
+    margin-right: 0.5rem;
+  }
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
@@ -26,9 +50,9 @@
         <!-- </li> -->
       </div>
       <div class="navbar-nav ms-auto search-btn">
-          <form class="form-inline my-2 my-lg-0">
-          <input class="" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-search" type="submit">Search</button>
+          <form class="form-inline my-2 my-lg-0" role="search">
+          <input class="search-bar" type="search" placeholder="find destination" aria-label="Search">
+          <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
           </form>
         </div>
       <div class="navbar-nav ms-auto">

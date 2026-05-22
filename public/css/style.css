@@ -8,7 +8,7 @@ body{
     flex: 1;
 }
 .fa-compass{
-    color:blueviolet;
+    color: rgba(250, 63, 63, 0.918);
     font-size: 2rem;
 }
 .navbar{
