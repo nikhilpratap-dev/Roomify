@@ -29,8 +29,13 @@ router.get("/",wrapAsync(listingController.index));
 //create new route
 router.get("/new",isLoggedIn,listingController.createNewListing);
 
+//search route
+router.get("/search",wrapAsync(listingController.searchListing));
+
 //show route
 router.get("/:id",wrapAsync(listingController.showListing));
+
+
 
 // add new data
 router.post("/new/add",isLoggedIn,upload.single('listing[image]'),validateListing,wrapAsync(listingController.addNewListing));

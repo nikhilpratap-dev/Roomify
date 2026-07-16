@@ -34,6 +34,15 @@ let listingSchema=new Schema({
         type:Schema.Types.ObjectId,
         ref:"User"
     },
+    features:{
+        type:String,
+        enum:{
+            values:["boating","mountain","sea","river","beach","relax","hill station","castle"],
+            message:"{VALUE} side is not available !"
+        },
+        default:"relax",
+    },
+    
 });
 
 listingSchema.post("findOneAndDelete",async(listing) => {

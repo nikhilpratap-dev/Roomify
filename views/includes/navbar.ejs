@@ -27,6 +27,10 @@
   .fa-magnifying-glass{
     margin-right: 0.5rem;
   }
+  /* .dark-mode{
+    background-color: #121212;
+    color:white;
+  } */
 </style>
 
 <nav class="navbar navbar-expand-md bg-body-tertiary border-bottom sticky-top">
@@ -40,8 +44,8 @@
         <h6>Book Your Vacations</h6>
       </div>
       <div class="navbar-nav ms-auto search-btn">
-          <form class="form-inline my-2 my-lg-0" role="search">
-          <input class="search-bar" type="search" placeholder="find destination" aria-label="Search">
+          <form method="GET" action="/listing/search" class="form-inline my-2 my-lg-0" role="search">
+          <input class="search-bar" type="search" name="query" placeholder="find destination" aria-label="Search">
           <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
           </form>
         </div>
@@ -54,7 +58,14 @@
         <%if(curruser){%>
         <a class="nav-link active" aria-current="page" href="/user/logout">Log out</a>
         <%}%>
+        <!-- <a><i class="fa-solid fa-moon"></i></a> -->
       </div>
     </div>
   </div>
+  <!-- <script>
+    let moon=document.querySelector(".fa-moon");
+     moon.addEventListener("click",()=>{
+      document.body.classList.toggle("dark-mode");
+     })
+  </script> -->
 </nav>

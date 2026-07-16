@@ -25,7 +25,44 @@ module.exports.showListing=async (req,res) =>{
     console.log(listing);
     res.render("./listings/show.ejs",{listing});
 }
+//search listing
+module.exports.searchListing=async(req,res)=>{
+    console.log(req.query);
+    let {query}=req.query;
+    if(!query || query.trim()===""){
+        return res.redirect("/listing");
+    }
+    const searchedListing=await Listing.find({
+        $or:[
+           {
+             features:{
+                $regex:query,
+                $options:"i",
+            },
+           },
+            {
+                country:{
+                $regex:query,
+                $options:"i",
+            }
+            },
+            {
+                title:{
+                    $regex:query,
+                    $options:"i",
+                }
+            },
+             {
+                location:{
+                    $regex:query,
+                    $options:"i",
+                }
+            }
+        ]
+    });
+    res.render("listings/search",{searchedListing});
 
+}
 
 //add new Listing
 module.exports.addNewListing=async (req,res) => {
